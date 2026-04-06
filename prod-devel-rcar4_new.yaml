@@ -34,6 +34,8 @@ variables:
   XT_AUTOSTART_DOMU: "disable"
   XT_AUTOSTART_DOMAGL_IVI: "enable"
   XT_AUTOSTART_DOMAGL_IC: "enable"
+  XT_DOM_FLATCAR_TAG: ""
+  XT_AUTOSTART_DOM_FLATCAR: "enable"
 
 common_data:
   # Sources used by all yocto-based domains
@@ -123,7 +125,7 @@ components:
         - [XT_DOMD_CONFIG_NAME, "%{XT_DOMD_CONFIG_NAME}"]
         - [XT_DOMU_CONFIG_NAME, "%{XT_DOMU_CONFIG_NAME}"]
         - [XT_DOMD_DTB_NAME, "%{XT_DOMD_DTB_NAME}"]
-        - [XT_GUEST_INSTALL, "%{XT_GENERIC_DOMU_TAG} %{XT_DOMA_TAG} %{XT_DOMAGL_IVI_TAG} %{XT_DOMAGL_IC_TAG} domd"]
+        - [XT_GUEST_INSTALL, "%{XT_GENERIC_DOMU_TAG} %{XT_DOMA_TAG} %{XT_DOMAGL_IVI_TAG} %{XT_DOMAGL_IC_TAG} %{XT_DOM_FLATCAR_TAG} domd"]
         - [XT_AUTOSTART_DOMA, "%{XT_AUTOSTART_DOMA}"]
         - [XT_AUTOSTART_DOMU, "%{XT_AUTOSTART_DOMU}"]
         - [XT_AUTOSTART_DOMAGL_IVI, "%{XT_AUTOSTART_DOMAGL_IVI}"]
@@ -172,7 +174,7 @@ components:
         - *DOMD_DOMU_CONF
         - [XT_DOM_NAME, "domd"]
         - [XT_DEVICE_TREES, "%{XT_DOMD_DTB_NAME} %{XT_XEN_DTB_NAME} %{XT_DOMA_DTB_NAME}"]
-        - [XT_GUEST_INSTALL, "%{XT_GENERIC_DOMU_TAG} %{XT_DOMA_TAG} %{XT_DOMAGL_IVI_TAG} %{XT_DOMAGL_IC_TAG}"]
+        - [XT_GUEST_INSTALL, "%{XT_GENERIC_DOMU_TAG} %{XT_DOMA_TAG} %{XT_DOMAGL_IVI_TAG} %{XT_DOMAGL_IC_TAG} %{XT_DOM_FLATCAR_TAG}"]
         - [IMAGE_INSTALL:append, " iperf3"]
         - [IMAGE_INSTALL:append, " smcroute"]
         - [IMAGE_INSTALL:append, " snort"]
@@ -779,7 +781,29 @@ parameters:
                 gpt_type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 # Linux filesystem data
                 image_path: "%{YOCTOS_WORK_DIR}/../../../../agl/build/tmp/deploy/images/%{AGL_GUEST_MACHINE}/%{AGL_GUEST_IMAGE_IC}-%{AGL_GUEST_MACHINE}.rootfs.ext4"
 
-
+  ENABLE_FLATCAR:
+    desc: "Install Flatcar Container Linux DomU Guest"
+    "no":
+      default: true
+    "yes":
+      overrides:
+        variables:
+          XT_DOM_FLATCAR_TAG: "dom-flatcar"
+        components:
+          dom0:
+            builder:
+              conf:
+                - [XT_AUTOSTART_DOM_FLATCAR, "%{XT_AUTOSTART_DOM_FLATCAR}"]
+              external_src:
+                dom-flatcar: "%{YOCTOS_WORK_DIR}/../../../../flatcar/kernel/"
+        images:
+          full:
+            partitions:
+              flatcar-disk:
+                type: raw_image
+                gpt_type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
+                image_path: "%{YOCTOS_WORK_DIR}/../../../../flatcar/flatcar_production_qemu_uefi_image.raw"
+  
   ENABLE_ZEPHYR:
     desc: "Build zephyr images and put into fitImage"
     "no":
