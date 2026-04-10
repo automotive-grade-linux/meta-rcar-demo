@@ -11,7 +11,7 @@ SRCREV_zephyr = "dc034d279e64f43085990d123db5ed5b40e6a634"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-ZEPHYR_SRC_DIR = "${S}/zephyr-blinky"
+ZEPHYR_SRC_DIR = "${S}/zephyr-app"
 ZEPHYR_BOARD = "xenvm/xenvm/gicv3"
 ZEPHYR_SNIPPETS = "sparrowhawk_rcar_v4h_xen_domd"
 ZEPHYR_EXTRA_MODULES = "${S}/modules/lib/zephyr-xenlib"
