@@ -1,7 +1,7 @@
 inherit zephyr-sample python3native
 
 SRC_URI = "\
-    ${ZEPHYR_APP_SOURCE_URI};name=app;destsuffix=git/zephyr-blinky \
+    ${ZEPHYR_APP_SOURCE_URI};name=app;destsuffix=git/zephyr-app \
     ${ZEPHYR_SOURCE_URI};name=zephyr;destsuffix=git/zephyr \
     git://github.com/zephyrproject-rtos/cmsis.git;protocol=https;name=cmsis;nobranch=1;destsuffix=git/modules/hal/cmsis \
     git://github.com/zephyrproject-rtos/CMSIS_6.git;protocol=https;name=cmsis6;nobranch=1;destsuffix=git/modules/hal/cmsis_6 \
@@ -17,7 +17,6 @@ SRC_URI = "\
     git://github.com/soburi/zephyr-xenlib.git;protocol=https;branch=xs-client;name=xenlib;destsuffix=git/modules/lib/zephyr-xenlib \
 "
 
-SRCREV_app = "b17730e28ded3ef47e3ff4f277a03904cc1cd3a2"
 SRCREV_cmsis = "512cc7e895e8491696b61f7ba8066b4a182569b8"
 SRCREV_cmsis6 = "30a859f44ef8ab4dc8f84b03ed586fd16ccf9d74"
 SRCREV_halrenesas = "a279c14e196cb0904593035888a334dcd2c720bd"

@@ -9,6 +9,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI = "\
     file://zephyr_blinky.conf \
+    file://zephyr_can_echoback.conf \
 "
 
 S = "${WORKDIR}"
@@ -17,10 +18,13 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 FILES:${PN} = " \
     ${sysconfdir}/xen/zephyr_blinky.conf \
     ${libdir}/xen/boot/zephyr_blinky.bin \
+    ${sysconfdir}/xen/zephyr_can_echoback.conf \
+    ${libdir}/xen/boot/zephyr_can_echoback.bin \
 "
 
 do_install[depends] += " \
     zephyr-blinky:do_deploy \
+    zephyr-can-echoback:do_deploy \
 "
 
 do_install() {
@@ -29,4 +33,7 @@ do_install() {
 
     install -m 0644 ${WORKDIR}/zephyr_blinky.conf ${D}${sysconfdir}/xen/zephyr_blinky.conf
     install -m 0644 ${DEPLOY_DIR_IMAGE}/zephyr_blinky.bin ${D}${libdir}/xen/boot/zephyr_blinky.bin
+
+    install -m 0644 ${WORKDIR}/zephyr_can_echoback.conf ${D}${sysconfdir}/xen/zephyr_can_echoback.conf
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/zephyr_can_echoback.bin ${D}${libdir}/xen/boot/zephyr_can_echoback.bin
 }
