@@ -32,6 +32,15 @@ SRC_URI:append = " \
 SRC_URI:remove = "file://0002-PCIe-MSI-support.sparrow-hawk.patch"
 SRC_URI:remove = "file://0003-xen-pciback-allow-compiling-on-other-archs-than-x86.patch"
 
+# Add support Olimex-MIPI-HDMI
+SRC_URI:append:sparrow-hawk = " \
+    file://lt8912b.cfg \
+    file://0001-arm64-dts-renesas-sparrow-hawk-Add-overlay-for-Olime.patch \
+"
+KERNEL_DEVICETREE:append:sparrow-hawk = " \
+    renesas/r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtbo \
+"
+
 do_compile:prepend:sparrow-hawk () {
     # WA for Xen DomD
     sed -i -e "s/1, 0, 1, 4/1, -1, 1, 4/" ${S}/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
