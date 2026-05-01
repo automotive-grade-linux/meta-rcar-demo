@@ -1,0 +1,42 @@
+#!/bin/sh
+# Configure storage for DomFlatcar
+
+DOMU_CFG_FILE="/etc/xen/dom-flatcar.cfg"
+
+# =====================================================================
+# detect storage device
+# =====================================================================
+BOOT_STORAGE=$(grep 'boot_dev=' /proc/device-tree/chosen/u-boot,bootconf \
+    | sed -e 's/.*boot_dev=//' -e 's/#.*//')
+if [ -z "$BOOT_STORAGE" ] ; then
+    BOOT_STORAGE=mmcblk0
+    echo "WARNING! Using default storage: ${BOOT_STORAGE}"
+fi
+
+# Special case for NFS
+if [ $BOOT_STORAGE = nfs ] ; then
+    echo "WARNING! NFS boot is not supported for Flatcar (requires full disk image)"
+    exit 1
+fi
+
+# =====================================================================
+# decide partiotion number
+# =====================================================================
+IFS=$'\n' read -rd '' -a configs <<< \
+    "$(ls /etc/xen/domu.cfg /etc/xen/doma.cfg \
+        /etc/xen/domagl-ivi.cfg /etc/xen/domagl-ic.cfg 2>/dev/null)"
+PART_NUM=$((3 + ${#configs[@]}))
+sed -i "s/STORAGE_PARTN/STORAGE_PART${PART_NUM}/g" $DOMU_CFG_FILE
+
+# setting partiotion prefix
+PART_PREFIX=""
+if echo "${BOOT_STORAGE}" | grep -q -e 'mmc' -e 'nvme'; then
+   PART_PREFIX="p"
+fi
+STORAGE_PART="${BOOT_STORAGE}${PART_PREFIX}"
+
+# wait for other domain startup
+sleep 10s
+
+echo "Mangling domain configuration: setting storage to ${BOOT_STORAGE}"
+sed -i "s/STORAGE_PART/${STORAGE_PART}/g" $DOMU_CFG_FILE

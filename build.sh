@@ -13,6 +13,7 @@ INHERIT_RM_WORK=no
 ENABLE_DOMU_AGL_IVI=undefined
 ENABLE_DOMU_AGL_IC=undefined
 ENABLE_ZEPHYR=no
+ENABLE_FLATCAR=no
 
 Usage() {
     echo "Usage:"
@@ -28,6 +29,8 @@ Usage() {
     echo "        --disable-domu-agl-ivi: Disable DomU AGL-IVI guest"
     echo "        --enable-domu-agl-ic: Enable DomU AGL-Cluster guest"
     echo "        --disable-domu-agl-ic: Disable DomU AGL-Cluster guest"
+    echo "        --enable-flatcar: Enable Flatcar Container Linux guest"
+    echo "        --disable-flatcar: Disable Flatcar Container Linux guest"
     echo "    -h, --help: Show this usage"
 }
 
@@ -58,6 +61,8 @@ do
         --disable-domu-agl-ivi) ENABLE_DOMU_AGL_IVI=no ;;
         --enable-domu-agl-ic) ENABLE_DOMU_AGL_IC=yes ;;
         --disable-domu-agl-ic) ENABLE_DOMU_AGL_IC=no ;;
+        --enable-flatcar) ENABLE_FLATCAR=yes ;;
+        --disable-flatcar) ENABLE_FLATCAR=no ;;
         --help) set_option h ;;
         --) shift; break ;;
         -[!-]?*)
@@ -146,6 +151,7 @@ moulin prod-devel-rcar4_new.yaml \
     --ENABLE_DOMU_AGL_IVI ${ENABLE_DOMU_AGL_IVI} \
     --ENABLE_DOMU_AGL_IC ${ENABLE_DOMU_AGL_IC} \
     --ENABLE_ZEPHYR ${ENABLE_ZEPHYR} \
+    --ENABLE_FLATCAR ${ENABLE_FLATCAR} \
 
 
 if [[ "${INHERIT_RM_WORK}" == "yes" ]]; then
