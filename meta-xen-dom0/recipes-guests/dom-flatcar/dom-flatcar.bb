@@ -12,7 +12,6 @@ EXTERNALSRC_SYMLINKS = ""
 SRC_URI = "\
     file://dom-flatcar-virtio.cfg \
     file://dom-flatcar.service \
-    file://dom-flatcar-set-root \
     file://virtio-env.conf \
 "
 
@@ -21,7 +20,6 @@ FILES:${PN} = " \
     ${libdir}/xen/boot/linux-flatcar \
     ${systemd_unitdir}/system/dom-flatcar.service \
     ${sysconfdir}/systemd/system/dom-flatcar.service.d/virtio-env.conf \
-    ${libdir}/xen/bin/dom-flatcar-set-root \
 "
 
 SYSTEMD_SERVICE:${PN} = "dom-flatcar.service"
@@ -44,10 +42,6 @@ do_install() {
     # launch-domain drop-in
     install -d ${D}${sysconfdir}/systemd/system/dom-flatcar.service.d
     install -m 0644 ${WORKDIR}/virtio-env.conf ${D}${sysconfdir}/systemd/system/dom-flatcar.service.d
-
-    # set-root script
-    install -d ${D}${libdir}/xen/bin
-    install -m 0744 ${WORKDIR}/dom-flatcar-set-root ${D}${libdir}/xen/bin
 }
 
 RDEPENDS:${PN}:append = " backend-ready"

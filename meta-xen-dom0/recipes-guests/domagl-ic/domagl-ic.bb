@@ -65,25 +65,3 @@ do_install:append() {
     install -m 0644 ${WORKDIR}/virtio-env.conf ${D}${sysconfdir}/systemd/system/domagl-ic.service.d
     install -m 0644 ${WORKDIR}/virtio-env-weston.conf ${D}${sysconfdir}/systemd/system/domagl-ic.service.d
 }
-
-
-SRC_URI:append = " \
-    file://domagl-ic-set-root \
-"
-
-FILES:${PN}:append = " \
-    ${libdir}/xen/bin/domagl-ic-set-root \
-"
-
-do_install:append() {
-    # Install domagl-ic-set-root script
-    install -d ${D}${libdir}/xen/bin
-    install -m 0744 ${WORKDIR}/domagl-ic-set-root ${D}${libdir}/xen/bin
-
-    # Call domagl-ic-set-root script before launching domain
-    echo "[Service]" >> ${D}${systemd_unitdir}/system/domagl-ic.service
-    echo "ExecStartPre=${libdir}/xen/bin/domagl-ic-set-root" >> ${D}${systemd_unitdir}/system/domagl-ic.service
-}
-
-
-

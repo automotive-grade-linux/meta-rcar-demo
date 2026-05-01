@@ -5,7 +5,6 @@ After=backend-ready@bridge.service
 
 [Service]
 Type=oneshot
-ExecStartPre=/usr/lib/xen/bin/dom-flatcar-set-root
 ExecStart=/usr/sbin/xl create /etc/xen/dom-flatcar.cfg
 ExecStop=/usr/sbin/xl destroy DomFlatcar
 RemainAfterExit=true

@@ -66,24 +66,3 @@ do_install:append() {
     install -m 0644 ${WORKDIR}/virtio-env-weston.conf ${D}${sysconfdir}/systemd/system/domagl-ivi.service.d
 }
 
-
-SRC_URI:append = " \
-    file://domagl-ivi-set-root \
-"
-
-FILES:${PN}:append = " \
-    ${libdir}/xen/bin/domagl-ivi-set-root \
-"
-
-do_install:append() {
-    # Install domagl-ivi-set-root script
-    install -d ${D}${libdir}/xen/bin
-    install -m 0744 ${WORKDIR}/domagl-ivi-set-root ${D}${libdir}/xen/bin
-
-    # Call domagl-ivi-set-root script before launching domain
-    echo "[Service]" >> ${D}${systemd_unitdir}/system/domagl-ivi.service
-    echo "ExecStartPre=${libdir}/xen/bin/domagl-ivi-set-root" >> ${D}${systemd_unitdir}/system/domagl-ivi.service
-}
-
-
-
