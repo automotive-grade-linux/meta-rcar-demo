@@ -1,9 +1,12 @@
 # NOTE: This is a sample configuration intended for a specific environment only.
 # Please adjust these settings to match your own setup.
 
-# event0: ILI210x Touchscreen -> DSI-1
-SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="ILI210x Touchscreen", ENV{WL_OUTPUT}="DSI-1"
+# Bind input devices from the specified device path (1-4.2.3) to AGL-IC (DP-1).
+SUBSYSTEM=="input", KERNEL=="event*", DEVPATH=="/devices/platform/soc/e65d8000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-4/1-4.2/1-4.2.3/*", ENV{WL_OUTPUT}="DP-1", GOTO="input_binding_end"
 
-# event1: ILITEK ILITEK-TP -> DP-1
-SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="ILITEK ILITEK-TP", ENV{WL_OUTPUT}="DP-1"
-SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="ILITEK ILITEK-TP Mouse", ENV{WL_OUTPUT}="DP-1"
+# Bind all other input devices to AGL-IVI.
+# If a DSI-to-HDMI converter is connected, use HDMI-A-1.
+# Otherwise, bind them to the native DSI-1 output.
+SUBSYSTEM=="input", KERNEL=="event*", PROGRAM="/bin/sh -c 'if ls /sys/class/drm/card0-HDMI-A-1 >/dev/null 2>&1; then echo HDMI-A; else echo DSI; fi'", ENV{WL_OUTPUT}="$result-1"
+
+LABEL="input_binding_end"

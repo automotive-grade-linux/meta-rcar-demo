@@ -9,6 +9,9 @@ do_install:prepend() {
         -e '$a [output]' \
         -e '$a name=DSI-1' \
         -e '$a app-ids=qemu-system-aarch64-domagl-ivi,qemu-system-aarch64-doma' \
+        -e '$a [output]' \
+        -e '$a name=HDMI-A-1' \
+        -e '$a app-ids=qemu-system-aarch64-domagl-ivi,qemu-system-aarch64-doma' \
 
     sed -i ${WORKDIR}/weston.service \
         -e 's|/usr/bin/weston|/usr/bin/weston --debug --log=/tmp/weston|'
