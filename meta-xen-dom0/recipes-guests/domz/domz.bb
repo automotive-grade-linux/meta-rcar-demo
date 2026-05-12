@@ -5,11 +5,14 @@ PV = "0.1"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
+inherit systemd
+
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI = "\
     file://zephyr_blinky.conf \
     file://zephyr_can_echoback.conf \
+    file://domz.service \
 "
 
 S = "${WORKDIR}"
@@ -20,7 +23,11 @@ FILES:${PN} = " \
     ${libdir}/xen/boot/zephyr_blinky.bin \
     ${sysconfdir}/xen/zephyr_can_echoback.conf \
     ${libdir}/xen/boot/zephyr_can_echoback.bin \
+    ${systemd_unitdir}/system/domz.service \
 "
+
+SYSTEMD_SERVICE:${PN} = "domz.service"
+SYSTEMD_AUTO_ENABLE:${PN} = "enable"
 
 do_install[depends] += " \
     zephyr-blinky:do_deploy \
@@ -36,4 +43,12 @@ do_install() {
 
     install -m 0644 ${WORKDIR}/zephyr_can_echoback.conf ${D}${sysconfdir}/xen/zephyr_can_echoback.conf
     install -m 0644 ${DEPLOY_DIR_IMAGE}/zephyr_can_echoback.bin ${D}${libdir}/xen/boot/zephyr_can_echoback.bin
+
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/domz.service ${D}${systemd_unitdir}/system/
 }
+
+RDEPENDS:${PN}:append = " \
+    backend-ready \
+    launch-domain \
+"

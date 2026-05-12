@@ -1,0 +1,13 @@
+[Unit]
+Description=DomZ
+Requires=backend-ready@bridge.service
+After=backend-ready@bridge.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/xl create /etc/xen/zephyr_can_echoback.conf
+ExecStop=/usr/sbin/xl destroy zephyr_can_echoback
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
