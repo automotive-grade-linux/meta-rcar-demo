@@ -1,5 +1,7 @@
 #!/bin/sh
 
+DOMA_CFG_FILE="/etc/xen/doma.cfg"
+
 # Memory setup
 TOTAL_MEMORY=$(xl info | grep total_memory | sed "s/.*: //")
 if [[ "${TOTAL_MEMORY}" == "16384" ]]; then
