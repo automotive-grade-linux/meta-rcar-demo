@@ -356,8 +356,8 @@ parameters:
           domd:
             sources:
               - type: git
-                url: https://github.com/rcar-community/meta-sparrow-hawk
-                rev: v2026-01-30
+                url: https://github.com/automotive-grade-linux/meta-sparrow-hawk
+                rev: sodev_stable
             builder:
               layers:
                 - "../meta-sparrow-hawk"
