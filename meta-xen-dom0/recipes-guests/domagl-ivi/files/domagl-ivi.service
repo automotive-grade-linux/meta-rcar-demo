@@ -5,6 +5,7 @@ After=backend-ready@bridge.service
 
 [Service]
 Type=oneshot
+ExecStartPre=/bin/sh -c 'if [ "$(systemctl is-enabled doma.service 2>/dev/null)" = "enabled" ]; then sleep 5; fi'
 ExecStart=/usr/sbin/xl create /etc/xen/domagl-ivi.cfg
 ExecStop=/usr/sbin/xl destroy DomAGL-IVI
 RemainAfterExit=true
