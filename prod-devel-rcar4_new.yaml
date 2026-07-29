@@ -51,7 +51,7 @@ common_data:
       rev: scarthgap
     - type: git
       url: "https://github.com/xen-troops/meta-xt-common.git"
-      rev: master
+      rev: scarthgap
 
   # Common configuration options for all yocto-based domains
   conf: &COMMON_CONF
