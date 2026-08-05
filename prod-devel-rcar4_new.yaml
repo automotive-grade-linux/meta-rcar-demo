@@ -429,7 +429,6 @@ parameters:
                 items:
                   "flash.bin": "%{YOCTOS_WORK_DIR}/build-domd/tmp/deploy/images/%{MACHINE}/flash.bin"
                   "fitImage": "%{YOCTOS_WORK_DIR}/build-dom0/tmp/deploy/images/generic-armv8-xt/fitImage"
-                  "/boot/fitImage": "%{YOCTOS_WORK_DIR}/build-dom0/tmp/deploy/images/generic-armv8-xt/fitImage"
 
   USE_GRAPHICS_PACKAGE:
     desc: "Enable GPU on DomD"
