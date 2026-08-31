@@ -1,0 +1,30 @@
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  ${TOPDIR}/../poky/meta \
+  ${TOPDIR}/../poky/meta-poky \
+  ${TOPDIR}/../poky/meta-yocto-bsp \
+  ${TOPDIR}/../meta-openembedded/meta-oe \
+  ${TOPDIR}/../meta-openembedded/meta-filesystems \
+  ${TOPDIR}/../meta-openembedded/meta-python \
+  ${TOPDIR}/../meta-openembedded/meta-multimedia \
+  ${TOPDIR}/../meta-openembedded/meta-networking \
+  ${TOPDIR}/../meta-selinux \
+  ${TOPDIR}/../meta-virtualization \
+  ${TOPDIR}/../meta-zephyr/meta-zephyr-core \
+  ${TOPDIR}/../meta-xt-common/meta-xt-control-domain \
+  ${TOPDIR}/../meta-xt-common/meta-xt-control-domain-virtio \
+  ${TOPDIR}/../meta-xt-common/meta-xt-dom0 \
+  ${TOPDIR}/../meta-xt-common/meta-xt-domx \
+  ${TOPDIR}/../meta-xt-common/meta-xt-qemu \
+  ${TOPDIR}/../meta-sparrow-hawk \
+  ${TOPDIR}/../meta-xen-dom0 \
+  ${TOPDIR}/../meta-xen-domz \
+  ${TOPDIR}/../meta-xen-domx \
+  ${TOPDIR}/../meta-sodev-integration \
+  "
